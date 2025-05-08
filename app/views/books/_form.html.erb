@@ -1,0 +1,100 @@
+<%= form_with model: @book, local: true, html: { multipart: true } do |f| %>
+  
+  <%# ─────────────── Validation errors ─────────────── %>
+<% if @book.errors.any? %>
+  <div id="error_explanation" class="alert alert-danger">
+    <ul class="mb-0">
+      <% @book.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+
+  <%# ───────────────────────────── Main fields ──────────────────────────── %>
+  <div class="row g-3">
+    <!-- Title -->
+    <div class="col-md-6">
+      <%= f.label :title, class: "form-label" %>
+      <%= f.text_field :title, class: "form-control", required: true %>
+    </div>
+
+    <!-- Author -->
+    <div class="col-md-6">
+      <%= f.label :author, class: "form-label" %>
+      <%= f.text_field :author, class: "form-control", required: true %>
+    </div>
+
+    <!-- Genre -->
+    <div class="col-md-4">
+      <%= f.label :genre_id, "Genre", class: "form-label" %>
+      <%= f.collection_select :genre_id,
+                              Genre.order(:name),
+                              :id, :name,
+                              { prompt: "Choose a genre" },
+                              { class: "form-select", required: true } %>
+    </div>
+
+    <!-- Published year -->
+    <div class="col-md-2">
+      <%= f.label :published_year, "Year", class: "form-label" %>
+      <%= f.number_field :published_year,
+                         class: "form-control",
+                         min: 1450,
+                         max: Time.current.year %>
+    </div>
+
+    <!-- Description -->
+    <div class="col-12">
+      <%= f.label :description, class: "form-label" %>
+      <%= f.text_area :description, rows: 4, class: "form-control" %>
+    </div>
+
+    <!-- Cover upload -->
+    <div class="col-12">
+      <%= f.label :cover,
+                  "Cover image (PNG / JPG / WEBP • ≤ 5 MB)",
+                  class: "form-label" %>
+      <%= f.file_field :cover,
+                       class:  "form-control",
+                       accept: "image/png,image/jpeg,image/webp",
+                       direct_upload: true %>
+
+      <%# Show thumbnail + remove checkbox once the record & attachment exist %>
+      <% if @book.persisted? && @book.cover.attached? && @book.cover.persisted? %>
+        <div class="small mt-2">
+          Current cover:<br>
+          <%= image_tag @book.cover.variant(resize_to_limit: [60, 90]),
+                        class: "img-thumbnail me-2" %>
+
+          <div class="form-check d-inline-block align-middle ms-2">
+            <%= f.check_box :remove_cover,
+                            { class: "form-check-input" },
+                            "1",   # value when checked
+                            "0"    # value when unchecked
+            %>
+            <%= f.label :remove_cover,
+                        "Remove current cover",
+                        class: "form-check-label" %>
+          </div>
+        </div>
+      <% end %>
+
+      <%# Inline cover-specific validation errors %>
+      <% if @book.errors[:cover].present? %>
+        <div class="text-danger small mt-1">
+          <%= @book.errors[:cover].join(", ") %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%# ─────────────────────── Submit / Cancel buttons ────────────────────── %>
+  <div class="mt-4">
+    <%= f.submit @book.new_record? ? "Create Book" : "Update Book",
+                 class: "btn btn-primary" %>
+    <%= link_to "Cancel", books_path, class: "btn btn-outline-secondary ms-2" %>
+  </div>
+<% end %>
+

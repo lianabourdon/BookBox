@@ -1,0 +1,70 @@
+<!-- app/views/task_categories/show.html.erb -->
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="mb-0">
+    <i class="fas fa-tag me-2"></i>
+    <%= @task_category.name %>
+  </h1>
+  <%= link_to "Edit Category",
+              edit_task_category_path(@task_category),
+              class: "btn btn-outline-primary" %>
+</div>
+
+<% if @task_category.description.present? %>
+  <p class="text-muted mb-4"><%= @task_category.description %></p>
+<% end %>
+
+<h2 class="h5 mb-3">Tasks in this Category</h2>
+
+<% if @task_category.reading_tasks.any? %>
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <% @task_category.reading_tasks.each do |task| %>
+      <%# Determine CSS classes for priority & status %>
+      <% priority_class = case task.priority
+         when "high"   then "bg-danger"
+         when "medium" then "bg-warning text-dark"
+         else               "bg-secondary"
+         end %>
+      <% status_class = task.completed? ? "bg-success" : "bg-secondary" %>
+
+      <div class="col">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <h5 class="card-title">
+              <%= link_to task.book.title, reading_task_path(task), class: "text-decoration-none" %>
+            </h5>
+          </div>
+
+          <div class="card-footer p-0">
+            <div class="text-center text-white <%= priority_class %> py-2">
+              <%= task.priority.capitalize %>
+            </div>
+            <div class="text-center text-white <%= status_class %> py-2">
+              <%= task.completed? ? "Done" : "Pending" %>
+            </div>
+            <div class="p-3 text-center d-flex justify-content-center gap-2">
+              <%= link_to "Edit Task",
+                          edit_reading_task_path(task),
+                          class: "btn btn-sm btn-outline-secondary" %>
+              <%= button_to "Delete Task",
+                            reading_task_path(task),
+                            method: :delete,
+                            data: { confirm: "Delete this task?" },
+                            class: "btn btn-sm btn-outline-danger",
+                            form: { class: "d-inline" } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="text-muted">No tasks in this category.</p>
+<% end %>
+
+<div class="mt-4">
+  <%= link_to "Back to Categories",
+              task_categories_path,
+              class: "btn btn-secondary" %>
+</div>
+

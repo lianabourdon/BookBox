@@ -1,0 +1,214 @@
+<%# app/views/reading_tasks/index.html.erb %>
+<%= page_header "fas fa-book-reader", "My Reading Tasks", "tasks" %>
+
+<!-- Filter Section -->
+<div class="row mb-4">
+  <div class="col-md-4">
+    <label for="filter-by" class="form-label fw-semibold">Filter by</label>
+    <select id="filter-by" class="form-select">
+      <option value="">-- Select Filter --</option>
+      <option value="priority">Priority</option>
+      <option value="category">Category</option>
+      <option value="recommended">Recommended</option>
+    </select>
+  </div>
+
+  <div class="col-md-4">
+    <label for="filter-value" class="form-label fw-semibold">Value</label>
+    <select id="filter-value" class="form-select" disabled>
+      <option value="">-- Select a filter type first --</option>
+    </select>
+  </div>
+
+  <div class="col-md-4">
+    <span class="form-label fw-semibold d-block invisible">Actions</span>
+    <button id="apply-filter" class="btn btn-sm btn-primary me-2">
+      <i class="fas fa-filter me-1"></i> Apply
+    </button>
+    <button id="clear-filter" class="btn btn-sm btn-secondary">
+      <i class="fas fa-eraser me-1"></i> Clear
+    </button>
+  </div>
+</div>
+
+<% if @reading_tasks.exists? %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th style="min-width: 200px;">Task</th>
+        <th>Book</th>
+        <th>Category</th>
+        <th>Priority</th>
+        <th>Recommended?</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @reading_tasks.each do |task| %>
+        <tr id="task_<%= task.id %>"
+            data-priority="<%= task.priority.downcase %>"
+            data-category="<%= task.task_category&.name.downcase %>"
+            data-recommended="<%= task.recommended ? 'yes' : 'no' %>">
+
+          <td class="align-middle" style="min-width: 200px; max-width: 300px; word-wrap: break-word;">
+            <span class="fw-semibold text-primary"><%= task.title %></span>
+          </td>
+
+          <td class="align-middle">
+            <%= link_to book_path(task.book), class: "text-decoration-none text-primary fw-semibold d-flex align-items-center" do %>
+              <% if task.book.cover.attached? %>
+                <%= image_tag task.book.cover.variant(resize_to_limit: [28, 40]),
+                              class: "me-2 rounded shadow-sm border",
+                              style: "width: 28px; height: 40px; object-fit: cover;" %>
+              <% else %>
+                <i class="fas fa-book-open me-2 text-secondary fs-5"></i>
+              <% end %>
+              <%= task.book.title %>
+            <% end %>
+          </td>
+
+          <td class="align-middle">
+            <% if task.task_category.present? %>
+              <span class="badge bg-<%= task.task_category.color.presence || 'secondary' %>">
+                <i class="fas fa-folder-open me-1"></i>
+                <%= task.task_category.name %>
+              </span>
+            <% else %>
+              <span class="badge bg-secondary">No Category</span>
+            <% end %>
+          </td>
+
+          <td class="align-middle">
+            <% case task.priority %>
+            <% when "high" %>
+              <span class="badge bg-danger"><i class="fas fa-arrow-up me-1"></i> High</span>
+            <% when "medium" %>
+              <span class="badge bg-warning text-dark"><i class="fas fa-arrow-right me-1"></i> Medium</span>
+            <% when "low" %>
+              <span class="badge bg-success"><i class="fas fa-arrow-down me-1"></i> Low</span>
+            <% else %>
+              <span class="badge bg-secondary">N/A</span>
+            <% end %>
+          </td>
+
+          <td class="align-middle">
+            <% if task.recommended %>
+              <span class="badge bg-info"><i class="fas fa-star"></i> Yes</span>
+            <% else %>
+              <span class="badge bg-secondary"><i class="far fa-star"></i> No</span>
+            <% end %>
+          </td>
+
+          <td class="align-middle">
+            <div class="d-flex align-items-center gap-2 flex-wrap" style="max-width: 260px;">
+              <% if !task.completed %>
+                <%= button_to raw('<i class="fas fa-check"></i> Mark Completed'),
+                      mark_completed_reading_task_path(task),
+                      method: :patch,
+                      class: 'btn btn-sm btn-success',
+                      data: { turbo: false },
+                      form: { class: "m-0" } %>
+              <% else %>
+                <span class="btn btn-sm btn-success invisible">Mark Completed</span>
+              <% end %>
+
+              <%= link_to edit_reading_task_path(task), class: "btn btn-sm btn-warning text-dark" do %>
+                <i class="fas fa-edit"></i> Edit
+              <% end %>
+
+              <%= button_to raw(task.recommended ? '<i class="fas fa-star-half-alt"></i> Unrecommend' : '<i class="far fa-star"></i> Recommend'),
+                    recommend_reading_task_path(task),
+                    method: :patch,
+                    class: 'btn btn-sm btn-primary',
+                    data: { turbo: false },
+                    form: { class: "m-0" } %>
+
+              <%= button_to raw('<i class="fas fa-trash-alt"></i> Delete'),
+                    reading_task_path(task),
+                    method: :delete,
+                    data: { turbo: false },
+                    class: 'btn btn-sm btn-danger',
+                    form: { class: "m-0" } %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="text-muted">
+    <i class="far fa-folder-open"></i>
+    No tasks yet.
+  </p>
+<% end %>
+
+<!-- Drop-in Inline JavaScript for filtering -->
+<script>
+  document.addEventListener('DOMContentLoaded', initReadingFilter);
+  document.addEventListener('turbo:load',      initReadingFilter);
+
+  function initReadingFilter() {
+    const priorities  = ['high', 'medium', 'low'];
+    const recommended = ['yes', 'no'];
+
+    const rows = Array.from(document.querySelectorAll('tbody tr'));
+    const categories = [...new Set(
+      rows.map(r => r.dataset.category).filter(Boolean)
+    )];
+
+    const filterBy    = document.getElementById('filter-by');
+    const filterValue = document.getElementById('filter-value');
+    const applyBtn    = document.getElementById('apply-filter');
+    const clearBtn    = document.getElementById('clear-filter');
+
+    // Reset filterValue
+    filterValue.disabled  = true;
+    filterValue.innerHTML = '<option value="">-- Select a filter type first --</option>';
+
+    filterBy.addEventListener('change', () => {
+      const type = filterBy.value;
+      filterValue.innerHTML = '';
+
+      if (!type) {
+        filterValue.disabled  = true;
+        filterValue.innerHTML = '<option value="">-- Select a filter type first --</option>';
+        return;
+      }
+
+      filterValue.disabled = false;
+      let opts = [];
+      if      (type === 'priority')    opts = priorities;
+      else if (type === 'recommended') opts = recommended;
+      else if (type === 'category')    opts = categories;
+
+      opts.forEach(val => {
+        const opt = document.createElement('option');
+        opt.value = val;
+        if (type === 'recommended') {
+          opt.textContent = val === 'yes' ? 'Yes' : 'No';
+        } else {
+          opt.textContent = val.charAt(0).toUpperCase() + val.slice(1);
+        }
+        filterValue.appendChild(opt);
+      });
+    });
+
+    applyBtn.addEventListener('click', () => {
+      const type = filterBy.value;
+      const val  = filterValue.value.toLowerCase();
+
+      rows.forEach(row => {
+        row.style.display = (!type || !val || row.dataset[type].toLowerCase() === val)
+                            ? '' : 'none';
+      });
+    });
+
+    clearBtn.addEventListener('click', () => {
+      filterBy.value  = '';
+      filterValue.disabled  = true;
+      filterValue.innerHTML = '<option value="">-- Select a filter type first --</option>';
+      rows.forEach(r => r.style.display = '');
+    });
+  }
+</script>
+

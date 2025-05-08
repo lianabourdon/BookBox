@@ -1,0 +1,148 @@
+/* ------------------------------------------------------------------
+   NAVBAR “fun” link palette
+------------------------------------------------------------------- */
+.nav-link.fun {
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+/* Base nav link colors */
+.text-tasks       { color: #6f42c1; }  /* purple */
+.text-completed   { color: #20c997; }  /* teal   */
+.text-categories  { color: #f97316; }  /* orange */
+.text-account     { color: #0d6efd; }  /* bootstrap primary */
+.text-admin       { color: #d63384; }  /* pink   */
+.text-credits     { color: #6f42c1; }  /* purple */
+.text-danger      { color: #dc3545; }  /* red    */
+
+.navbar .nav-link.fun.text-tasks:hover       { color: #5a189a !important; }
+.navbar .nav-link.fun.text-completed:hover   { color: #128f76 !important; }
+.navbar .nav-link.fun.text-categories:hover  { color: #b3540a !important; }
+.navbar .nav-link.fun.text-account:hover     { color: #004080 !important; }
+.navbar .nav-link.fun.text-admin:hover       { color: #a30059 !important; }
+.navbar .nav-link.fun.text-credits:hover     { color: #512da8 !important; }
+.navbar .nav-link.fun.text-danger:hover      { color: #a60000 !important; }
+
+/* brand icon tint */
+.fun-brand i { color: #ff922b; }
+
+/* ------------------------------------------------------------------
+   BANNER – cap height & keep responsive
+------------------------------------------------------------------- */
+.welcome-hero img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* ------------------------------------------------------------------
+   PAGE TITLES (used by page_header helper)
+------------------------------------------------------------------- */
+.page-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: 1.5rem;
+  text-transform: capitalize;
+}
+
+.page-title i {
+  font-size: 1.3em;
+}
+
+/* color flavors */
+.page-title.tasks      { color: #6f42c1; }
+.page-title.completed  { color: #20c997; }
+.page-title.books      { color: #0d6efd; }
+.page-title.genres     { color: #d63384; }
+.page-title.account    { color: #0d6efd; }
+.page-title.admin      { color: #d63384; }
+
+/* Match book titles with the new heading font */
+.card-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+/* ------------------------------------------------------------------
+   BOOK COVER – fixed height, maintain aspect ratio, center-cropped
+------------------------------------------------------------------- */
+.book-cover-show {
+  width: 300px;
+  height: 450px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Hover underline for book titles */
+.book-title {
+  font-weight: 500;
+  font-family: "Poppins", sans-serif;
+  transition: color 0.2s ease;
+}
+
+a:hover .book-title {
+  color: #0d6efd;
+  text-decoration: underline;
+}
+
+/* Select2 and badge utilities */
+.select2-container--default .select2-selection--single {
+  min-height: 38px;
+}
+
+.bg-deep-purple { background-color: #6f42c1 !important; color: #fff !important; }
+.bg-orange       { background-color: #fd7e14 !important; color: #fff !important; }
+.bg-teal         { background-color: #20c997 !important; color: #fff !important; }
+.bg-purple       { background-color: #6f42c1 !important; color: #fff !important; }
+.bg-cyan         { background-color: #0dcaf0 !important; color: #fff !important; }
+.bg-pink         { background-color: #d63384 !important; color: #fff !important; }
+.bg-indigo       { background-color: #6610f2 !important; color: #fff !important; }
+
+/* grayscale utility */
+.grayscale {
+  filter: grayscale(100%);
+  opacity: 0.7;
+}
+
+body.dark-mode .navbar,
+body.dark-mode .card {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+}
+
+body.dark-mode .nav-link.fun {
+  color: #ccc;
+}
+
+body.dark-mode .nav-link.fun:hover {
+  color: #fff !important;
+}
+
+body.dark-mode a {
+  color: #80cbc4;
+}
+
+body.dark-mode .btn-outline-secondary {
+  border-color: #aaa;
+  color: #ccc;
+}
+
+body.dark-mode .btn-outline-secondary:hover {
+  background-color: #333;
+  border-color: #fff;
+  color: #fff;
+}
+
+body.dark-mode .table {
+  color: #eee;
+}
+

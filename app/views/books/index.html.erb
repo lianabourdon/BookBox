@@ -1,0 +1,109 @@
+<%= page_header "fas fa-book", "My Book Library", "books" %>
+
+<!-- Add Book Button for Regular Users/Admins -->
+<% if user_signed_in? && !current_user.super_admin? %>
+  <div class="mb-3 text-end">
+    <%= link_to "Add Book", new_book_path, class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<!-- Genre + Per Page Filter -->
+<%= form_with url: books_path, method: :get, local: true, class: "row g-2 mb-4" do |form| %>
+  <div class="col-auto">
+    <%= form.label :genre_id, "Filter by Genre", class: "form-label" %>
+    <%= form.select :genre_id,
+                    options_from_collection_for_select(@genres, :id, :name, params[:genre_id]),
+                    { prompt: "All Genres" },
+                    class: "form-select select2" %>
+  </div>
+
+  <div class="col-auto">
+    <%= form.label :per_page, "Books per page", class: "form-label" %>
+    <%= form.select :per_page,
+                    options_for_select([6, 12, 18, 24], (params[:per_page] || 6).to_i),
+                    {}, class: "form-select" %>
+  </div>
+
+  <div class="col-auto d-flex align-items-end">
+    <%= form.submit "Apply", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<!-- Books Table -->
+<% if @books.empty? %>
+  <p class="text-muted">No books available.</p>
+<% else %>
+  <table class="table table-sm align-middle">
+    <thead>
+      <tr>
+        <th>Cover</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Year</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @books.each do |book| %>
+        <tr class="<%= 'text-muted bg-light' if book.loaned_out? %>">
+          <!-- Cover -->
+          <td class="align-middle">
+            <% if book.cover.attached? %>
+              <%= image_tag book.cover.variant(resize_to_limit: [40, 60]),
+                            class: "rounded shadow-sm border #{'grayscale' if book.loaned_out?}",
+                            style: "width: 40px; height: 60px; object-fit: cover;" %>
+            <% else %>
+              <i class="fas fa-book text-secondary fs-4"></i>
+            <% end %>
+          </td>
+
+          <!-- Title + Badges + Return Button -->
+          <td class="align-middle">
+            <% title_classes = book.loaned_out? ? "text-dark" : "text-primary" %>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <%= link_to book_path(book), class: "text-decoration-none #{title_classes} fw-semibold d-inline-flex align-items-center" do %>
+                <i class="fas fa-book-open me-1"></i> <%= book.title %>
+              <% end %>
+
+              <% if book.user.super_admin? %>
+                <span class="badge bg-info text-dark">Shared</span>
+              <% end %>
+
+              <% if book.user == current_user && book.loaned_to.present? %>
+                <span class="badge rounded-pill bg-warning text-dark align-middle">
+                  Borrowed by <%= book.loaned_to.first_name %>
+                </span>
+              <% elsif book.loaned_to == current_user && book.loaned_by.present? %>
+                <span class="badge rounded-pill bg-primary text-light align-middle">
+                  Loaned by <%= book.loaned_by.first_name %>
+                </span>
+              <% end %>
+
+              <% if book.loaned_to == current_user %>
+                <%= button_to return_lending_path(book.active_lending),
+                              method: :patch,
+                              form_class: "d-inline",
+                              class: "btn btn-sm btn-outline-success align-middle",
+                              data: { turbo_confirm: "Return this book to #{book.loaned_by&.first_name || 'the owner'}?" } do %>
+                  <i class="fas fa-undo me-1"></i> Return
+                <% end %>
+              <% end %>
+            </div>
+          </td>
+
+          <!-- Metadata -->
+          <td class="align-middle"><%= book.author %></td>
+          <td class="align-middle"><%= book.genre&.name || "—" %></td>
+          <td class="align-middle"><%= book.published_year %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="mt-4 d-flex justify-content-center">
+    <%= paginate @books %>
+  </div>
+<% end %>
+

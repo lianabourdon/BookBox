@@ -1,0 +1,73 @@
+<%= form_with(model: [book, review], local: true) do |f| %>
+  <div class="mb-3">
+    <%= f.label :rating, "Rating", class: "form-label" %>
+    <%= f.hidden_field :rating,
+          value: (review.rating || 0),
+          id: "review_rating" %>
+
+    <div class="star-rating mb-2">
+      <% (1..5).each do |i| %>
+        <i class="far fa-star fa-2x star"
+           data-value="<%= i %>"></i>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :comment %>
+    <%= f.text_area :comment,
+          rows: 4,
+          class: "form-control",
+          required: true %>
+  </div>
+
+  <%= f.submit review.persisted? ? "Update Review" : "Post Review",
+        class: "btn btn-primary" %>
+<% end %>
+
+<!-- style the stars -->
+<style>
+  .star {
+    cursor: pointer;
+    margin-right: 8px;
+    /* empty star color */
+    color: #ddd;
+  }
+  .star.fas {
+    /* filled star color */
+    color: #ffc107;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const stars = document.querySelectorAll(".star-rating .star");
+    const input = document.getElementById("review_rating");
+
+    const updateStars = (rating) => {
+      stars.forEach(star => {
+        const val = parseInt(star.dataset.value, 10);
+        if (val <= rating) {
+          star.classList.remove("far");
+          star.classList.add("fas");
+        } else {
+          star.classList.remove("fas");
+          star.classList.add("far");
+        }
+      });
+    };
+
+    // initial display
+    updateStars(parseInt(input.value, 10) || 0);
+
+    // click handler
+    stars.forEach(star => {
+      star.addEventListener("click", () => {
+        const val = parseInt(star.dataset.value, 10);
+        input.value = val;
+        updateStars(val);
+      });
+    });
+  });
+</script>
+

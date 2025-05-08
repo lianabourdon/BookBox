@@ -1,0 +1,90 @@
+<%= page_header "fas fa-check-circle", "Completed Tasks" %>
+
+<% if @reading_tasks.empty? %>
+  <p class="text-muted">
+    <i class="fas fa-inbox"></i> No completed tasks yet.
+  </p>
+<% else %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Book</th>
+        <th>Category</th>
+        <th>Priority</th>
+        <th>Recommended?</th>
+        <th>Completed On</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @reading_tasks.each do |task| %>
+        <tr>
+          <td class="align-middle">
+            <%= link_to book_path(task.book), class: "text-decoration-none text-primary fw-semibold d-flex align-items-center" do %>
+              <% if task.book.cover.attached? %>
+                <%= image_tag task.book.cover.variant(resize_to_limit: [28, 40]),
+                              class: "me-2 rounded shadow-sm border",
+                              alt: task.book.title,
+                              style: "width: 28px; height: 40px; object-fit: cover;" %>
+              <% else %>
+                <i class="fas fa-book-open me-2 text-secondary fs-5"></i>
+              <% end %>
+              <%= task.book.title %>
+            <% end %>
+          </td>
+
+          <td class="align-middle">
+            <% if task.task_category.present? %>
+              <span class="badge bg-<%= task.task_category.color.presence || 'secondary' %>">
+                <i class="fas fa-folder-open me-1"></i>
+                <%= task.task_category.name %>
+              </span>
+            <% else %>
+              <span class="badge bg-secondary">No Category</span>
+            <% end %>
+          </td>
+
+          <td class="align-middle">
+            <% case task.priority %>
+            <% when "high" %>
+              <span class="badge bg-danger"><i class="fas fa-arrow-up me-1"></i> High</span>
+            <% when "medium" %>
+              <span class="badge bg-warning text-dark"><i class="fas fa-arrow-right me-1"></i> Medium</span>
+            <% when "low" %>
+              <span class="badge bg-success"><i class="fas fa-arrow-down me-1"></i> Low</span>
+            <% else %>
+              <span class="badge bg-secondary">N/A</span>
+            <% end %>
+          </td>
+
+          <td class="align-middle">
+            <% if task.recommended %>
+              <span class="badge bg-info"><i class="fas fa-star"></i> Yes</span>
+            <% else %>
+              <span class="badge bg-secondary"><i class="far fa-star"></i> No</span>
+            <% end %>
+          </td>
+
+          <td class="align-middle">
+            <%= task.updated_at.strftime("%b %e, %Y") %>
+          </td>
+
+          <td class="align-middle d-flex gap-2">
+            <%= link_to edit_reading_task_path(task), class: "btn btn-sm btn-outline-primary" do %>
+              <i class="fas fa-pen"></i> Edit
+            <% end %>
+
+            <%= button_to raw('<i class="fas fa-trash-alt"></i> Delete'),
+                  reading_task_path(task),
+                  method: :delete,
+                  data: { turbo: false },
+                  class: 'btn btn-sm btn-danger',
+                  form: { class: "m-0" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+

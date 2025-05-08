@@ -1,0 +1,55 @@
+<% books = @books || [] %>
+<% task_categories = @task_categories || [] %>
+
+<%= form_with(model: reading_task, local: true) do |f| %>
+  <% if reading_task.errors.any? %>
+    <div class="alert alert-danger">
+      <h6><i class="fas fa-exclamation-triangle me-1"></i> Please fix the following:</h6>
+      <ul class="mb-0">
+        <% reading_task.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<div class="mb-3">
+  <%= f.label :title, "Title", class: "form-label fw-semibold text-tasks" %>
+  <%= f.text_field :title, class: "form-control", required: true %>
+</div>
+
+
+  <!-- Book Dropdown -->
+  <div class="mb-3">
+    <%= f.label :book_id, "Book", class: "form-label fw-semibold text-tasks" %>
+    <%= f.collection_select :book_id,
+                            books,
+                            :id, :title,
+                            { prompt: "-- select a book --" },
+                            { class: "form-select", id: "reading_task_book_id" } %>
+  </div>
+
+  <!-- Category Dropdown -->
+  <div class="mb-3">
+    <%= f.label :task_category_id, "Category", class: "form-label fw-semibold text-tasks" %>
+    <%= f.collection_select :task_category_id,
+                            task_categories,
+                            :id, :name,
+                            { prompt: "-- choose category --" },
+                            { class: "form-select", id: "reading_task_task_category_id" } %>
+  </div>
+
+  <!-- Priority Dropdown -->
+  <div class="mb-3">
+    <%= f.label :priority, "Priority", class: "form-label fw-semibold text-tasks" %>
+    <%= f.select :priority,
+                 ReadingTask.priorities.keys.map { |level| [level.humanize, level] },
+                 { prompt: "-- choose priority --" },
+                 { class: "form-select", id: "reading_task_priority" } %>
+  </div>
+
+  <!-- Submit Button -->
+  <%= f.submit reading_task.new_record? ? "Add Task" : "Update Task",
+               class: "btn btn-primary" %>
+<% end %>
+
