@@ -125,7 +125,7 @@ GEM
     ffi (1.17.2-x86_64-darwin)
     ffi (1.17.2-x86_64-linux-gnu)
     ffi (1.17.2-x86_64-linux-musl)
-    font-awesome-sass (6.4.2)
+    font-awesome-sass (6.7.2)
       sassc (~> 2.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
@@ -390,7 +390,7 @@ DEPENDENCIES
   cloudinary (~> 1.26.0)
   debug
   devise
-  font-awesome-sass (~> 6.4.0)
+  font-awesome-sass (~> 6.7.2)
   image_processing (~> 1.13)
   importmap-rails
   jbuilder
