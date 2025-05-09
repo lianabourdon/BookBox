@@ -99,7 +99,7 @@ With global admin content, personalized lists, and interactive UI features, Book
 ---
 
 ## 🔗 Repository & Demo
-- 📂 **GitHub**: [https://github.com/yourusername/bookbox](https://github.com/lianabourdon/BookBox))
+- 📂 **GitHub**: [https://github.com/lianabourdon/bookbox](https://github.com/lianabourdon/BookBox)
 - 🌍 **Live App**: [https://bookbox.herokuapp.com](https://bookbox.herokuapp.com](https://bookbox-app-966dbd8f7ec1.herokuapp.com/))
 ---
 
