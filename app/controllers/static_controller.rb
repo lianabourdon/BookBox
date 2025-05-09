@@ -6,5 +6,8 @@ class StaticController < ApplicationController
   def credits
     # nothing special needed here—just render app/views/static/credits.html.erb
   end
+
+  def faq; end
+
 end
 

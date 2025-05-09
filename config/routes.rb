@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   # ─── Static ───────────────────────────────────────────────────────────────────
   get  "/credits", to: "static#credits"
   get  "/welcome", to: "welcome#index"      # nice-to-have alias for root
-
+  get "/faq", to: "static#faq", as: :faq
   # ─── Authentication ───────────────────────────────────────────────────────────
   devise_for :users, controllers: { registrations: "users/registrations" }
   devise_scope :user do

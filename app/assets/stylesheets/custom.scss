@@ -113,36 +113,14 @@ a:hover .book-title {
   opacity: 0.7;
 }
 
-body.dark-mode .navbar,
-body.dark-mode .card {
-  background-color: #1e1e1e;
-  color: #f1f1f1;
+/* FAQ accordion tweaks */
+.accordion-flush .accordion-item {
+  border: 1px solid rgba(0,0,0,.05);
+  border-radius: .5rem;
+  margin-bottom: .75rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,.06);
 }
-
-body.dark-mode .nav-link.fun {
-  color: #ccc;
-}
-
-body.dark-mode .nav-link.fun:hover {
-  color: #fff !important;
-}
-
-body.dark-mode a {
-  color: #80cbc4;
-}
-
-body.dark-mode .btn-outline-secondary {
-  border-color: #aaa;
-  color: #ccc;
-}
-
-body.dark-mode .btn-outline-secondary:hover {
-  background-color: #333;
-  border-color: #fff;
-  color: #fff;
-}
-
-body.dark-mode .table {
-  color: #eee;
+.accordion-button:not(.collapsed) {
+  background-color: rgba(0, 123, 255, .15); /* light blue */
 }
 
