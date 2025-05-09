@@ -103,20 +103,6 @@ With global admin content, personalized lists, and interactive UI features, Book
 - 🌍 **Live App**: [https://bookbox.herokuapp.com](https://bookbox-app-966dbd8f7ec1.herokuapp.com/)
 ---
 
-## 🛠️ Setup (For Developers)
-```bash
-bundle install
-rails db:setup
-rails s
-```
-
-For production:
-```bash
-heroku config:set CLOUDINARY_URL=cloudinary://<your_key>:<your_secret>@<your_cloud>
-```
-
----
-
 ## 👋 License & Credits
 Created by Liana, Annabelle, and Cam for COM214 – Final Project. All rights reserved.
 
