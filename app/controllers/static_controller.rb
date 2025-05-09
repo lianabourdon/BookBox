@@ -1,13 +1,9 @@
-# app/controllers/static_controller.rb
 class StaticController < ApplicationController
-  # skip login only for the credits page
-  skip_before_action :authenticate_user!, only: [:credits]
+  # Add :faq to the skip list so guests can view it
+  skip_before_action :authenticate_user!, only: %i[home credits faq]
 
-  def credits
-    # nothing special needed here—just render app/views/static/credits.html.erb
-  end
-
-  def faq; end
-
+  def home; end
+  def credits; end
+  def faq; end         # ← make sure this action exists
 end
 

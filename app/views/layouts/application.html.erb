@@ -32,87 +32,35 @@
       <div class="collapse navbar-collapse justify-content-center" id="mainNav">
         <ul class="navbar-nav align-items-center gap-2 flex-nowrap" style="overflow-x:auto;">
           <% if user_signed_in? %>
-            <li class="nav-item">
-              <%= link_to root_path, class: "nav-link fun text-primary" do %>
-                <i class="fas fa-home me-1"></i> Home
-              <% end %>
-            </li>
-            <li class="nav-item">
-              <%= link_to books_path, class: "nav-link fun text-books" do %>
-                <i class="fas fa-book me-1"></i> My Books
-              <% end %>
-            </li>
-            <li class="nav-item">
-              <%= link_to reading_tasks_path, class: "nav-link fun text-tasks" do %>
-                <i class="fas fa-list-check me-1"></i> My Tasks
-              <% end %>
-            </li>
-            <li class="nav-item">
-              <%= link_to new_reading_task_path, class: "nav-link fun text-add" do %>
-                <i class="fas fa-plus me-1"></i> Add Task
-              <% end %>
-            </li>
-            <li class="nav-item">
-              <%= link_to completed_reading_tasks_path, class: "nav-link fun text-completed" do %>
-                <i class="fas fa-check-circle me-1"></i> Completed
-              <% end %>
-            </li>
-            <li class="nav-item">
-              <%= link_to task_categories_path, class: "nav-link fun text-categories" do %>
-                <i class="fas fa-folder-open me-1"></i> Categories
-              <% end %>
-            </li>
+            <!-- logged-in links -->
+            <li class="nav-item"><%= link_to root_path, class: "nav-link fun text-primary"  do %><i class="fas fa-home me-1"></i> Home<% end %></li>
+            <li class="nav-item"><%= link_to books_path, class: "nav-link fun text-books"  do %><i class="fas fa-book me-1"></i> My Books<% end %></li>
+            <li class="nav-item"><%= link_to reading_tasks_path, class: "nav-link fun text-tasks" do %><i class="fas fa-list-check me-1"></i> My Tasks<% end %></li>
+            <li class="nav-item"><%= link_to new_reading_task_path, class: "nav-link fun text-add" do %><i class="fas fa-plus me-1"></i> Add Task<% end %></li>
+            <li class="nav-item"><%= link_to completed_reading_tasks_path, class: "nav-link fun text-completed" do %><i class="fas fa-check-circle me-1"></i> Completed<% end %></li>
+            <li class="nav-item"><%= link_to task_categories_path, class: "nav-link fun text-categories" do %><i class="fas fa-folder-open me-1"></i> Categories<% end %></li>
             <% if current_user.super_admin? %>
-              <li class="nav-item">
-                <%= link_to new_book_path, class: "nav-link fun text-admin" do %>
-                  <i class="fas fa-plus-square me-1"></i> Add Shared Book
-                <% end %>
-              </li>
+              <li class="nav-item"><%= link_to new_book_path, class: "nav-link fun text-admin" do %><i class="fas fa-plus-square me-1"></i> Add Shared Book<% end %></li>
             <% else %>
-              <li class="nav-item">
-                <%= link_to new_lending_path, class: "nav-link fun text-account" do %>
-                  <i class="fas fa-handshake me-1"></i> Lend a Book
-                <% end %>
-              </li>
+              <li class="nav-item"><%= link_to new_lending_path, class: "nav-link fun text-account" do %><i class="fas fa-handshake me-1"></i> Lend a Book<% end %></li>
             <% end %>
             <% if current_user.admin? %>
-              <li class="nav-item">
-                <%= link_to admin_users_path, class: "nav-link fun text-admin" do %>
-                  <i class="fas fa-users-cog me-1"></i> Manage Users
-                <% end %>
-              </li>
+              <li class="nav-item"><%= link_to admin_users_path, class: "nav-link fun text-admin" do %><i class="fas fa-users-cog me-1"></i> Manage Users<% end %></li>
             <% end %>
-            <li class="nav-item">
-              <%= link_to edit_user_registration_path, class: "nav-link fun text-account" do %>
-                <i class="fas fa-user-circle me-1"></i> <%= current_user.first_name %>'s Account
-              <% end %>
-            </li>
-            <li class="nav-item">
-              <%= button_to destroy_user_session_path,
-                            method: :delete,
-                            data: { confirm: "Log out?" },
-                            form_class: "d-inline-flex",
-                            class: "nav-link fun text-danger btn btn-link" do %>
-                <i class="fas fa-sign-out-alt me-1"></i> Logout
-              <% end %>
-            </li>
+            <li class="nav-item"><%= link_to edit_user_registration_path, class: "nav-link fun text-account" do %><i class="fas fa-user-circle me-1"></i> <%= current_user.first_name %>'s Account<% end %></li>
+            <li class="nav-item"><%= button_to destroy_user_session_path, method: :delete, data: { confirm: "Log out?" }, form_class: "d-inline-flex", class: "nav-link fun text-danger btn btn-link" do %><i class="fas fa-sign-out-alt me-1"></i> Logout<% end %></li>
           <% else %>
             <% unless controller_name == "welcome" && action_name == "index" %>
-              <li class="nav-item">
-                <%= link_to new_user_session_path,
-                            class: "btn btn-outline-primary btn-sm d-inline-flex align-items-center" do %>
-                  <i class="fas fa-sign-in-alt me-1"></i> Login / Sign Up
-                <% end %>
-              </li>
+              <li class="nav-item"><%= link_to new_user_session_path, class: "btn btn-outline-primary btn-sm d-inline-flex align-items-center" do %><i class="fas fa-sign-in-alt me-1"></i> Login / Sign Up<% end %></li>
             <% end %>
           <% end %>
 
-  <li class="nav-item">
-      <%= link_to faq_path, class: "nav-link fun text-info" do %>
-        <i class="fas fa-question-circle me-1"></i> FAQ
-      <% end %>
-    </li>
-
+          <!-- public links -->
+          <li class="nav-item">
+            <%= link_to faq_path, class: "nav-link fun text-info" do %>
+              <i class="fas fa-question-circle me-1"></i> FAQ
+            <% end %>
+          </li>
           <li class="nav-item">
             <%= link_to credits_path, class: "nav-link fun text-credits" do %>
               <i class="fas fa-scroll me-1"></i> Credits
@@ -131,50 +79,39 @@
   <% end %>
 
   <!-- Main Content -->
-  <main class="container">
-    <%= yield %>
-  </main>
+  <main class="container"><%= yield %></main>
 
   <!-- JavaScript -->
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
   <!-- BEGIN: Drop-in filter script -->
   <script>
     document.addEventListener("DOMContentLoaded", initFilter);
     document.addEventListener("turbo:load",      initFilter);
 
     function initFilter() {
-      // Always init Select2
       $('.select2').select2({ theme: 'bootstrap4', width: 'resolve' });
 
-      // Grab filter controls; bail out if not present
       const filterBy    = document.getElementById('filter-by');
       const filterValue = document.getElementById('filter-value');
       const applyBtn    = document.getElementById('apply-filter');
       const clearBtn    = document.getElementById('clear-filter');
       if (!filterBy || !filterValue || !applyBtn || !clearBtn) return;
 
-      // Data arrays
       const priorities  = ['high','medium','low'];
       const recommended = ['yes','no'];
       const categories  = <%= raw(@task_categories&.map(&:name)&.map(&:downcase)&.uniq.to_json || '[]') %>;
 
-      // Cache table rows
       const rows = Array.from(document.querySelectorAll('tbody tr'));
 
-      // Helper to reset the Value select
       function resetValueSelect() {
         filterValue.disabled  = true;
         filterValue.innerHTML = '<option value="">-- Select a filter type first --</option>';
       }
-
-      // Initial reset
       resetValueSelect();
 
-      // When filter type changes
       filterBy.addEventListener('change', () => {
         const type = filterBy.value;
         filterValue.innerHTML = '';
@@ -196,7 +133,6 @@
         });
       });
 
-      // Apply filter
       applyBtn.addEventListener('click', () => {
         const type = filterBy.value;
         const val  = (filterValue.value || '').toLowerCase();
@@ -205,7 +141,6 @@
         });
       });
 
-      // Clear filter
       clearBtn.addEventListener('click', () => {
         filterBy.value = '';
         resetValueSelect();
@@ -214,7 +149,6 @@
     }
   </script>
   <!-- END: Drop-in filter script -->
-
 </body>
 </html>
 
