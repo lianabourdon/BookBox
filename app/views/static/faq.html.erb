@@ -6,7 +6,7 @@
 
   <h1 class="mb-5 fw-bold">BookBox – Frequently Asked Questions</h1>
 
-  <%# ==================== 1. ACCOUNTS & ROLES ========================== %>
+    <%# ==================== 1. ACCOUNTS & ROLES ========================== %>
   <h3 class="border-start border-4 ps-3 mb-3">Accounts &amp; Roles</h3>
   <div class="accordion accordion-flush mb-5" id="faq-account">
 
@@ -30,26 +30,41 @@
               <tr>
                 <td><strong>Super-Admin</strong></td>
                 <td>Head Librarian</td>
-                <td>Full CRUD on <em>all</em> objects (users, books, tasks, reviews, lendings).<br>
-                    Owns the seed catalogue; cannot add personal books.</td>
+                <td>
+                  • Add global “Shared Books”; edit/delete any book, review, task, or lending.<br>
+                  • Full CRUD on every user or admin account <em>except itself</em> (undeletable).<br>
+                  • Can promote/demote admins.<br>
+                  • Does <em>not</em> see the personal “Add Book” button (keeps seed catalogue pristine).
+                </td>
               </tr>
               <tr>
                 <td><strong>Regular Admin</strong></td>
-                <td>Library Staff Member</td>
-                <td>Manage books, reviews, lendings, and tasks—<br>
-                    but not users or seed data. Has a personal reading list.</td>
+                <td>Senior Library Staff</td>
+                <td>
+                  • “Manage Users” link – reset passwords, revoke admin rights, or delete any user or
+                    regular admin.<br>
+                  • Cannot modify/delete the Super-Admin account.<br>
+                  • Edit/delete books, reviews, tasks, and lendings not seed-locked.<br>
+                  • No “Add Shared Book” option; maintains a normal personal reading list.
+                </td>
               </tr>
               <tr>
                 <td><strong>Regular User</strong></td>
                 <td>Library Patron</td>
-                <td>Browse/search books, manage personal tasks, write reviews,<br>
-                    lend/return books. No catalogue-editing powers.</td>
+                <td>
+                  • Browse/search catalogue; add books to personal library.<br>
+                  • Create/complete ReadingTasks, write reviews.<br>
+                  • Lend and return books they own.<br>
+                  • No catalogue-editing or user-management powers.
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
+
+
 
     <%# Q2 – Devise basics %>
     <div class="accordion-item">
