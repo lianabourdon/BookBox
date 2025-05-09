@@ -106,7 +106,6 @@ With global admin content, personalized lists, and interactive UI features, Book
 ## 🛠️ Setup (For Developers)
 ```bash
 bundle install
-yarn install # if using webpacker
 rails db:setup
 rails s
 ```
