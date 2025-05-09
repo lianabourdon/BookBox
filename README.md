@@ -1,4 +1,4 @@
-# 📚 BookBox: Community-Driven Book Reviews, Tasks Reading Lists & Lending
+# 📚 BookBox: Community-Driven Book Reviews, Reading Lists & Lending
 
 ![Ruby on Rails](https://img.shields.io/badge/Rails-7.0-red?logo=rubyonrails)
 ![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue?logo=postgresql)
