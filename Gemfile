@@ -76,6 +76,6 @@ gem "bootstrap", "~> 5.3.0"
 
 gem "font-awesome-sass", "~> 6.4.0"
 
-gem "cloudinary", "~> 1.26.0"
+gem "cloudinary", "~> 2.3.0"
 gem "activestorage-cloudinary-service", "~> 0.2.3"
 
