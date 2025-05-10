@@ -103,6 +103,40 @@ With global admin content, personalized lists, and interactive UI features, Book
 - 🌍 **Live App**: [https://bookbox.herokuapp.com](https://bookbox-app-966dbd8f7ec1.herokuapp.com/)
 ---
 
+
+---
+
+## 🚀 Deployment
+* **PostgreSQL** production DB  
+* **Cloudinary** image hosting  
+* Deployed on **Heroku** (Config Vars for secrets)  
+
+---
+
+## 🛠️ Local Install & Run (Puma)
+
+### Prerequisites
+| Package | Min version | Install note |
+|---------|-------------|--------------|
+| Ruby | 3.2 | macOS: `brew install ruby@3.2`<br>Ubuntu: rbenv 3.2.x |
+| Bundler | latest | `gem install bundler -N` |
+| Node.js | 16 | `brew install node` / `apt install nodejs` |
+| Git | any | clone repo |
+| Build tools | gcc/clang, make, headers | Linux & Windows-native only |
+
+### Quick-start commands
+
+| Platform | Setup (one-time) | Run (every session) |
+|----------|------------------|---------------------|
+| **macOS (Homebrew)** | ```bash\n/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"\nbrew install ruby@3.2 node\ngem install rails -N``` | ```bash\ngit clone https://github.com/lianabourdon/bookbox.git\ncd bookbox\nbundle install\nbin/rails s``` |
+| **Ubuntu 22.04 / Debian** | ```bash\nsudo apt update && sudo apt install -y build-essential libssl-dev libreadline-dev zlib1g-dev curl git\ncurl -fsSL https://github.com/rbenv/rbenv-installer/raw/main/bin/rbenv-installer | bash\necho 'export PATH=\"$HOME/.rbenv/bin:$PATH\"' >> ~/.bashrc && source ~/.bashrc\nrbenv install 3.2.2 && rbenv global 3.2.2\ncurl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -\nsudo apt install -y nodejs\ngem install rails -N``` | ```bash\ngit clone https://github.com/lianabourdon/bookbox.git\ncd bookbox\nbundle install\nbin/rails s -b 0.0.0.0``` |
+| **Windows (WSL 2)** | `wsl --install` → open Ubuntu → follow Linux column | same as Linux |
+| **Windows (RubyInstaller)** | Install **RubyInstaller 3.2 x64** + MSYS2 devkit (“Ridk install” option 3). Install Node LTS. `gem install rails -N`. | ```cmd\ngit clone https://github.com/lianabourdon/bookbox.git\ncd bookbox\nbundle install\nbin\\rails s``` |
+
+When `bin/rails s` runs you’ll see:
+
+
+
 ## 👋 License & Credits
 Created by Liana, Annabelle, and Cam for COM214 – Final Project. All rights reserved.
 
