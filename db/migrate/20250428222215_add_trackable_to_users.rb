@@ -1,3 +1,11 @@
+# ---------------------------------------------------------------------------
+# BookBox – COM214 Final Project (Spring 2025)
+# Author contributions
+#   Cam Nguyen      – Lending system, Select2 search UI, FAQ controller & view
+#   Liana Bourdon   – ReadingTask workflow, Devise roles, deployment scripts
+#   Annabelle Duval – Catalogue & review features, Cloudinary, SCSS/Bootstrap
+# ---------------------------------------------------------------------------
+
 # db/migrate/20250428190000_add_trackable_to_users.rb
 class AddTrackableToUsers < ActiveRecord::Migration[7.2]
   def change

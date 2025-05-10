@@ -1,3 +1,12 @@
+# ---------------------------------------------------------------------------
+# BookBox – COM214 Final Project (Spring 2025)
+# Author contributions
+#   Cam Nguyen      – Lending system, Select2 search UI, FAQ controller & view
+#   Liana Bourdon   – ReadingTask workflow, Devise roles, deployment scripts
+#   Annabelle Duval – Catalogue & review features, Cloudinary, SCSS/Bootstrap
+# ---------------------------------------------------------------------------
+
+
 source "https://rubygems.org"
 
 gem "image_processing", "~> 1.13"   # required for resize_to_limit, etc.

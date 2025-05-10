@@ -1,3 +1,11 @@
+# ---------------------------------------------------------------------------
+# BookBox – COM214 Final Project (Spring 2025)
+# Author contributions
+#   Cam Nguyen      – Lending system, Select2 search UI, FAQ controller & view
+#   Liana Bourdon   – ReadingTask workflow, Devise roles, deployment scripts
+#   Annabelle Duval – Catalogue & review features, Cloudinary, SCSS/Bootstrap
+# ---------------------------------------------------------------------------
+
 # db/migrate/20250505223045_add_not_nulls_and_indexes.rb
 class AddNotNullsAndIndexes < ActiveRecord::Migration[7.2]
   # ⬇️ stub model so we can run update_all in change

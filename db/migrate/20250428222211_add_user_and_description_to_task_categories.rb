@@ -1,3 +1,11 @@
+# ---------------------------------------------------------------------------
+# BookBox – COM214 Final Project (Spring 2025)
+# Author contributions
+#   Cam Nguyen      – Lending system, Select2 search UI, FAQ controller & view
+#   Liana Bourdon   – ReadingTask workflow, Devise roles, deployment scripts
+#   Annabelle Duval – Catalogue & review features, Cloudinary, SCSS/Bootstrap
+# ---------------------------------------------------------------------------
+
 # db/migrate/20250428222211_add_user_and_description_to_task_categories.rb
 class AddUserAndDescriptionToTaskCategories < ActiveRecord::Migration[7.0]
   def up
