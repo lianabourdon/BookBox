@@ -135,6 +135,10 @@ With global admin content, personalized lists, and interactive UI features, Book
 
 When `bin/rails s` runs you’ll see:
 
+Puma starting in single mode...
+Listening on http://127.0.0.1:3000
+
+
 
 
 ## 👋 License & Credits
