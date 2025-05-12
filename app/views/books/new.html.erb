@@ -1,0 +1,14 @@
+<%# ------------------------------------------------------------------------- %>
+<%#  BookBox – COM214 Final Project (Spring 2025)                             %>
+<%#  Author contributions:                                                    %>
+<%#    Cam Bayusik      – Lending modal & loan banner                          %>
+<%#    Liana Bourdon   – Task lists, navbar tweaks                            %>
+<%#    Annabelle Calvin – Book cards, genre filter                             %>
+<%# ------------------------------------------------------------------------- %>
+
+<%= page_header "fas fa-book-medical", "New Book", "books" %>
+
+<%= render "form", book: @book %>
+
+<%= link_to "Back to Books", books_path, class: "btn btn-outline-secondary mt-4" %>
+

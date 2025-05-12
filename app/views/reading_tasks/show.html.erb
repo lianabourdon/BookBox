@@ -1,0 +1,69 @@
+<%# ------------------------------------------------------------------------- %>
+<%#  BookBox – COM214 Final Project (Spring 2025)                             %>
+<%#  Author contributions:                                                    %>
+<%#    Cam Bayusik      – Lending modal & loan banner                          %>
+<%#    Liana Bourdon   – Task lists, navbar tweaks                            %>
+<%#    Annabelle Calvin – Book cards, genre filter                             %>
+<%# ------------------------------------------------------------------------- %>
+
+<p class="text-success"><%= notice %></p>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+
+    <div class="d-flex gap-4 align-items-start">
+      <% if @reading_task.book.cover.attached? %>
+        <%= image_tag @reading_task.book.cover.variant(resize_to_limit: [100, 150]),
+                      class: "rounded border shadow-sm",
+                      alt: @reading_task.book.title %>
+      <% end %>
+
+      <div class="flex-grow-1">
+        <h6 class="text-uppercase text-muted fw-bold mb-1">Task</h6>
+        <h3 class="card-title text-primary mb-3"><%= @reading_task.title %></h3>
+
+        <p class="mb-2">
+          <strong>Book:</strong>
+          <%= link_to @reading_task.book.title, book_path(@reading_task.book),
+                    class: "fw-semibold text-decoration-none text-primary" %>
+        </p>
+
+        <p class="mb-2">
+          <strong>Category:</strong>
+          <span class="badge bg-<%= @reading_task.task_category.color %>">
+            <%= @reading_task.task_category.name %>
+          </span>
+        </p>
+
+        <p class="mb-2">
+          <strong>Priority:</strong>
+          <% case @reading_task.priority %>
+            <% when "high" %>
+              <span class="badge bg-danger">High</span>
+            <% when "medium" %>
+              <span class="badge bg-warning text-dark">Medium</span>
+            <% when "low" %>
+              <span class="badge bg-success">Low</span>
+            <% else %>
+              <span class="badge bg-secondary">N/A</span>
+          <% end %>
+        </p>
+
+        <p class="mb-0">
+          <strong>Status:</strong>
+          <span class="badge <%= @reading_task.completed? ? 'bg-success' : 'bg-secondary' %>">
+            <%= @reading_task.completed? ? "Completed" : "Incomplete" %>
+          </span>
+        </p>
+      </div>
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+      <%= link_to "Edit Task", edit_reading_task_path(@reading_task), class: "btn btn-outline-primary" %>
+      <%= link_to "Back to Tasks", reading_tasks_path, class: "btn btn-outline-secondary" %>
+      <%= button_to "Delete Task", @reading_task, method: :delete, class: "btn btn-outline-danger" %>
+    </div>
+
+  </div>
+</div>
+

@@ -1,0 +1,346 @@
+<%# ------------------------------------------------------------------------- %>
+<%#  BookBox – COM214 Final Project (Spring 2025)                             %>
+<%#  Author contributions:                                                    %>
+<%#    Cam Bayusik      – Lending modal & loan banner                          %>
+<%#    Liana Bourdon   – Task lists, navbar tweaks                            %>
+<%#    Annabelle Calvin – Book cards, genre filter                             %>
+<%# ------------------------------------------------------------------------- %>
+
+<%# ===================================================================== %>
+<%#  BookBox – Comprehensive FAQ (covers entire feature summary)          %>
+<%# ===================================================================== %>
+
+<div class="container py-5">
+
+  <h1 class="mb-5 fw-bold">BookBox – Frequently Asked Questions</h1>
+
+    <%# ==================== 1. ACCOUNTS & ROLES ========================== %>
+  <h3 class="border-start border-4 ps-3 mb-3">Accounts &amp; Roles</h3>
+  <div class="accordion accordion-flush mb-5" id="faq-account">
+
+    <%# Q1 – Role differences table %>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q1">
+        <button class="accordion-button collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#a1" aria-expanded="false"
+                aria-controls="a1">
+          What are the exact privileges of each role?
+        </button>
+      </h2>
+      <div id="a1" class="accordion-collapse collapse" aria-labelledby="q1"
+           data-bs-parent="#faq-account">
+        <div class="accordion-body p-0">
+          <table class="table table-sm table-bordered mb-0">
+            <thead class="table-light">
+              <tr><th>Role</th><th>Real-world analogy</th><th>Key privileges</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Super-Admin</strong></td>
+                <td>Head Librarian</td>
+                <td>
+                  • Add global “Shared Books”; edit/delete any book, review, task, or lending.<br>
+                  • Full CRUD on every user or admin account <em>except itself</em> (undeletable).<br>
+                  • Can promote/demote admins.<br>
+                  • Does <em>not</em> see the personal “Add Book” button (keeps seed catalogue pristine).
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Regular Admin</strong></td>
+                <td>Senior Library Staff</td>
+                <td>
+                  • “Manage Users” link – reset passwords, revoke admin rights, or delete any user or
+                    regular admin.<br>
+                  • Cannot modify/delete the Super-Admin account.<br>
+                  • Edit/delete books, reviews, tasks, and lendings not seed-locked.<br>
+                  • No “Add Shared Book” option; maintains a normal personal reading list.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Regular User</strong></td>
+                <td>Library Patron</td>
+                <td>
+                  • Browse/search catalogue; add books to personal library.<br>
+                  • Create/complete ReadingTasks, write reviews.<br>
+                  • Lend and return books they own.<br>
+                  • No catalogue-editing or user-management powers.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+
+    <%# Q2 – Devise basics %>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q2">
+        <button class="accordion-button collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#a2" aria-expanded="false"
+                aria-controls="a2">
+          How do I sign up or reset my password?
+        </button>
+      </h2>
+      <div id="a2" class="accordion-collapse collapse" aria-labelledby="q2"
+           data-bs-parent="#faq-account">
+        <div class="accordion-body">
+          BookBox uses Devise. Click <em>Login / Sign Up</em> in the navbar. A reset-password action resets your
+          password to "password" and forces a password change the next time user logs in.
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- /accordion account -->
+
+  <%# ==================== 2. BOOKS & CATALOGUE ========================= %>
+  <h3 class="border-start border-4 ps-3 mb-3">Books &amp; Catalogue</h3>
+  <div class="accordion accordion-flush mb-5" id="faq-books">
+
+    <%# Q3 – fixed genres %>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q3">
+        <button class="accordion-button collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#a3" aria-expanded="false"
+                aria-controls="a3">
+          Can I add or edit genres?
+        </button>
+      </h2>
+      <div id="a3" class="accordion-collapse collapse" aria-labelledby="q3"
+           data-bs-parent="#faq-books">
+        <div class="accordion-body">
+          The ten genres (Fantasy → Young Adult) are fixed reference data loaded by
+          <code>db/seeds.rb</code> and not editable through the UI.
+        </div>
+      </div>
+    </div>
+
+    <%# Q4 – pagination %>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q4">
+        <button class="accordion-button collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#a4" aria-expanded="false"
+                aria-controls="a4">
+          How does book pagination work?
+        </button>
+      </h2>
+      <div id="a4" class="accordion-collapse collapse" aria-labelledby="q4"
+           data-bs-parent="#faq-books">
+        <div class="accordion-body">
+          The catalogue is paginated with Kaminari: six books per page by default. You can show up
+          to 24 per page by adding <code>?per_page=24</code> to the URL.
+        </div>
+      </div>
+    </div>
+
+    <%# Q5 – images %>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q5">
+        <button class="accordion-button collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#a5" aria-expanded="false"
+                aria-controls="a5">
+          Where are cover images stored?
+        </button>
+      </h2>
+      <div id="a5" class="accordion-collapse collapse" aria-labelledby="q5"
+           data-bs-parent="#faq-books">
+        <div class="accordion-body">
+          All images are uploaded via Active Storage and delivered through Cloudinary for
+          fast, responsive loading.
+        </div>
+      </div>
+    </div>
+
+    <%# Q6 – filtering/search %>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q6">
+        <button class="accordion-button collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#a6" aria-expanded="false"
+                aria-controls="a6">
+          How do filtering and live search work?
+        </button>
+      </h2>
+      <div id="a6" class="accordion-collapse collapse" aria-labelledby="q6"
+           data-bs-parent="#faq-books">
+        <div class="accordion-body">
+          Genre pill buttons filter by category; a Select2 search box with thumbnail covers narrows
+          results in real time as you type.
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- /accordion books -->
+
+  <%# ==================== 3. READING TASKS ============================ %>
+  <h3 class="border-start border-4 ps-3 mb-3">Reading Tasks (To-Do List)</h3>
+  <div class="accordion accordion-flush mb-5" id="faq-tasks">
+
+    <%# Q7 – what is ReadingTask %>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q7">
+        <button class="accordion-button collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#a7" aria-expanded="false"
+                aria-controls="a7">
+          What exactly is a ReadingTask?
+        </button>
+      </h2>
+      <div id="a7" class="accordion-collapse collapse" aria-labelledby="q7"
+           data-bs-parent="#faq-tasks">
+        <div class="accordion-body">
+          A ReadingTask is your personal “to-read” queue item. You can set a priority
+          (High / Medium / Low), and mark it complete, moving it to the
+          Completed tabt.
+        </div>
+      </div>
+    </div>
+
+    <%# Q8 – privacy %>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q8">
+        <button class="accordion-button collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#a8" aria-expanded="false"
+                aria-controls="a8">
+          Canmy tasks be seen other users?
+        </button>
+      </h2>
+      <div id="a8" class="accordion-collapse collapse" aria-labelledby="q8"
+           data-bs-parent="#faq-tasks">
+        <div class="accordion-body">
+          Yes, but they will labled as owned by you. 
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- /accordion tasks -->
+
+  <%# ==================== 4. LENDING ================================ %>
+  <h3 class="border-start border-4 ps-3 mb-3">Lending</h3>
+  <div class="accordion accordion-flush mb-5" id="faq-lending">
+
+    <%# Q9 – lend flow %>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q9">
+        <button class="accordion-button collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#a9" aria-expanded="false"
+                aria-controls="a9">
+          How do I lend a book and how is it returned?
+        </button>
+      </h2>
+      <div id="a9" class="accordion-collapse collapse" aria-labelledby="q9"
+           data-bs-parent="#faq-lending">
+        <div class="accordion-body">
+          Click <em>Lend</em> on a book you own, choose a borrower. The book is
+          greyed out and locked to others. Borrower can return it by clicking the "Return" box.
+        </div>
+      </div>
+    </div>
+
+    <%# Q10 – single active loan %>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q10">
+        <button class="accordion-button collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#a10" aria-expanded="false"
+                aria-controls="a10">
+          Can the same book be lent to multiple people at once?
+        </button>
+      </h2>
+      <div id="a10" class="accordion-collapse collapse" aria-labelledby="q10"
+           data-bs-parent="#faq-lending">
+        <div class="accordion-body">
+          No, a book can have only one active lending record, preventing double-booking until it’s
+          returned.
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- /accordion lending -->
+
+  <%# ==================== 5. REVIEWS =============================== %>
+  <h3 class="border-start border-4 ps-3 mb-3">Reviews</h3>
+  <div class="accordion accordion-flush mb-5" id="faq-reviews">
+
+    <%# Q11 – formatting & moderation %>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q11">
+        <button class="accordion-button collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#a11" aria-expanded="false"
+                aria-controls="a11">
+          How are reviews formatted and moderated?
+        </button>
+      </h2>
+      <div id="a11" class="accordion-collapse collapse" aria-labelledby="q11"
+           data-bs-parent="#faq-reviews">
+        <div class="accordion-body">
+          Reviews use a five-star rating plus Markdown comments. Admins can hide or delete reviews
+          that violate guidelines; users can edit their own.
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- /accordion reviews -->
+
+  <%# ==================== 6. TECH STACK ============================ %>
+  <h3 class="border-start border-4 ps-3 mb-3">Tech Stack &amp; Ops</h3>
+  <div class="accordion accordion-flush mb-5" id="faq-tech">
+
+    <%# Q12 – front-end stack %>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q12">
+        <button class="accordion-button collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#a12" aria-expanded="false"
+                aria-controls="a12">
+          What front-end technologies does BookBox use?
+        </button>
+      </h2>
+      <div id="a12" class="accordion-collapse collapse" aria-labelledby="q12"
+           data-bs-parent="#faq-tech">
+        <div class="accordion-body">
+          Bootstrap 5 for layout, Font Awesome icons, Select2 for search dropdowns, and Stimulus +
+          Turbo Streams for reactive UI updates.
+        </div>
+      </div>
+    </div>
+
+    <%# Q13 – back-end deps %>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q13">
+        <button class="accordion-button collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#a13" aria-expanded="false"
+                aria-controls="a13">
+          Where is BookBox deployed?
+        </button>
+      </h2>
+      <div id="a13" class="accordion-collapse collapse" aria-labelledby="q13"
+           data-bs-parent="#faq-tech">
+        <div class="accordion-body">
+          Rails 7 • PostgreSQL • Puma • esbuild, hosted on Heroku with a Cloudinary add-on for
+          storage. Secrets are managed via Heroku Config Vars.
+        </div>
+      </div>
+    </div>
+
+    <%# Q14 – security %>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="q14">
+        <button class="accordion-button collapsed" type="button"
+                data-bs-toggle="collapse" data-bs-target="#a14" aria-expanded="false"
+                aria-controls="a14">
+          Is the app secure?
+        </button>
+      </h2>
+      <div id="a14" class="accordion-collapse collapse" aria-labelledby="q14"
+           data-bs-parent="#faq-tech">
+        <div class="accordion-body">
+          Devise handles authentication and password resets. Role checks guard every destructive
+          action, CSRF tokens protect forms, and models validate presence/uniqueness of critical
+          fields.
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- /accordion tech -->
+
+</div> <!-- /container -->
+
+

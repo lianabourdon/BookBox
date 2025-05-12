@@ -1,0 +1,13 @@
+<%# ------------------------------------------------------------------------- %>
+<%#  BookBox – COM214 Final Project (Spring 2025)                             %>
+<%#  Author contributions:                                                    %>
+<%#    Cam Bayusik      – Lending modal & loan banner                          %>
+<%#    Liana Bourdon   – Task lists, navbar tweaks                            %>
+<%#    Annabelle Calvin – Book cards, genre filter                             %>
+<%# ------------------------------------------------------------------------- %>
+
+<p>Welcome <%= @email %>!</p>
+
+<p>You can confirm your account email through the link below:</p>
+
+<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>

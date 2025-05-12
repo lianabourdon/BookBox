@@ -1,0 +1,92 @@
+<%# ------------------------------------------------------------------------- %>
+<%#  BookBox – COM214 Final Project (Spring 2025)                             %>
+<%#  Author contributions:                                                    %>
+<%#    Cam Bayusik      – Lending modal & loan banner                          %>
+<%#    Liana Bourdon   – Task lists, navbar tweaks                            %>
+<%#    Annabelle Calvin – Book cards, genre filter                             %>
+<%# ------------------------------------------------------------------------- %>
+
+<%= page_header "fas fa-book-open", @book.title %>
+
+<div class="row">
+  <div class="col-md-4 mb-3">
+    <% if @book.cover.attached? %>
+      <%= image_tag @book.cover.variant(resize_to_limit: [400, 600]),
+                    class: "img-fluid rounded shadow border #{'grayscale' if @book.loaned_out?}" %>
+    <% else %>
+      <div class="border rounded p-5 bg-light text-center text-muted">
+        <i class="fas fa-book fa-3x"></i><br>
+        No cover available
+      </div>
+    <% end %>
+  </div>
+
+  <div class="col-md-8">
+    <h2 class="mb-3"><%= @book.title %></h2>
+    <p><strong>Author:</strong> <%= @book.author %></p>
+    <p><strong>Genre:</strong> <%= @book.genre&.name || "—" %></p>
+    <p><strong>Year:</strong> <%= @book.published_year || "—" %></p>
+    <p><strong>Description:</strong> <%= @book.description.presence || "No description provided." %></p>
+
+    <!-- Reviews Section -->
+    <div class="mt-4 mb-4">
+      <h3>Reviews</h3>
+
+      <% if @book.reviews.any? %>
+        <% average = @book.reviews.average(:rating)&.round(1) %>
+        <p><strong>Average rating:</strong> <%= average %> / 5</p>
+        <%= render @book.reviews %>
+      <% else %>
+        <p class="text-muted">No reviews yet. Be the first to review!</p>
+      <% end %>
+
+      <% if user_signed_in? %>
+        <% if @book.reviews.exists?(user: current_user) %>
+          <p class="text-success">You’ve already reviewed this book.</p>
+        <% else %>
+          <%= render 'reviews/form', review: Review.new, book: @book %>
+        <% end %>
+      <% else %>
+        <p><%= link_to 'Sign in', new_user_session_path %> to post a review.</p>
+      <% end %>
+    </div>
+    <!-- End Reviews Section -->
+
+    <% if @book.loaned_out? %>
+      <% if @book.user == current_user && @book.loaned_to.present? %>
+        <span class="badge bg-warning text-dark">
+          Borrowed by <%= @book.loaned_to.first_name %>
+        </span>
+      <% elsif @book.loaned_to == current_user && @book.loaned_by.present? %>
+        <span class="badge bg-primary">
+          Loaned by <%= @book.loaned_by.first_name %>
+        </span>
+      <% end %>
+    <% end %>
+
+    <div class="mt-4 d-flex gap-2">
+      <% if current_user == @book.user && !current_user.super_admin? && !@book.loaned_out? %>
+        <%= link_to "Lend This Book", new_lending_path(book_id: @book.id),
+                    class: "btn btn-warning" %>
+      <% end %>
+
+      <% if current_user == @book.user %>
+        <%= link_to "Edit", edit_book_path(@book), class: "btn btn-outline-primary" %>
+        <%= button_to @book,
+                      method: :delete,
+                      data: { turbo_confirm: "Are you sure you want to delete this book?" },
+                      class: "btn btn-outline-danger" do %>
+          <i class="fas fa-trash me-1"></i> Delete
+        <% end %>
+      <% elsif @book.loaned_to == current_user %>
+        <%= button_to return_lending_path(@book.active_lending),
+                      method: :patch,
+                      class: "btn btn-success",
+                      data: { turbo_confirm: "Return this book to #{@book.loaned_by.first_name}?" } do %>
+          <i class="fas fa-undo me-1"></i> Return Book
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+

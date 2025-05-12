@@ -1,0 +1,96 @@
+<%# ------------------------------------------------------------------------- %>
+<%#  BookBox – COM214 Final Project (Spring 2025)                             %>
+<%#  Author contributions:                                                    %>
+<%#    Cam Bayusik      – Lending modal & loan banner                          %>
+<%#    Liana Bourdon   – Task lists, navbar tweaks                            %>
+<%#    Annabelle Calvin – Book cards, genre filter                             %>
+<%# ------------------------------------------------------------------------- %>
+
+<!-- app/views/admin/users/index.html.erb -->
+
+<h1 class="mb-4">User Management</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Username</th>
+      <th>Admin?</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <!-- Email & “currently logged in” badge -->
+        <td class="text-start px-3" style="white-space: nowrap;">
+          <%= user.email %>
+          <% if user == current_user %>
+            <span class="badge bg-info text-dark ms-2">(currently logged in)</span>
+          <% end %>
+        </td>
+
+        <!-- Username -->
+        <td class="text-muted small" style="white-space: nowrap;">
+          <%= user.username %>
+        </td>
+
+        <!-- Admin status -->
+        <td>
+          <% if user.admin? %>
+            <span class="d-inline-flex align-items-center">
+              <i class="fas fa-check-circle text-success me-1" title="Admin: Yes"></i>
+              <span class="badge bg-success text-white">Yes</span>
+            </span>
+          <% else %>
+            <span class="d-inline-flex align-items-center">
+              <i class="fas fa-times-circle text-danger me-1" title="Admin: No"></i>
+              <span class="badge bg-danger text-white">No</span>
+            </span>
+          <% end %>
+        </td>
+
+        <!-- Actions: guarded for current_user and super_admin -->
+        <td>
+          <% if user == current_user || user.super_admin? %>
+            <em>cannot change</em> |
+            <em>cannot delete</em> |
+            <em>cannot reset</em>
+          <% else %>
+            <div class="btn-group" role="group">
+              <!-- toggle admin flag -->
+              <% if user.admin? %>
+                <%= button_to "Revoke Admin",
+                              admin_user_path(user),
+                              method: :patch,
+                              params: { user: { admin: "0" } },
+                              class: "btn btn-warning btn-sm" %>
+              <% else %>
+                <%= button_to "Make Admin",
+                              admin_user_path(user),
+                              method: :patch,
+                              params: { user: { admin: "1" } },
+                              class: "btn btn-outline-primary btn-sm" %>
+              <% end %>
+
+              <!-- reset password -->
+              <%= button_to "Reset Password",
+                            reset_password_admin_user_path(user),
+                            method: :patch,
+                            data: { confirm: "Reset this user's password?" },
+                            class: "btn btn-outline-secondary btn-sm" %>
+
+              <!-- delete user -->
+              <%= button_to "Delete",
+                            admin_user_path(user),
+                            method: :delete,
+                            data: { confirm: "Delete this user?" },
+                            class: "btn btn-danger btn-sm" %>
+            </div>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

@@ -1,0 +1,13 @@
+<%# ------------------------------------------------------------------------- %>
+<%#  BookBox – COM214 Final Project (Spring 2025)                             %>
+<%#  Author contributions:                                                    %>
+<%#    Cam Bayusik      – Lending modal & loan banner                          %>
+<%#    Liana Bourdon   – Task lists, navbar tweaks                            %>
+<%#    Annabelle Calvin – Book cards, genre filter                             %>
+<%# ------------------------------------------------------------------------- %>
+
+<%# --- New Reading Task ---------------------------------------------------- %>
+<%= page_header "fas fa-plus-circle", "New Reading Task", "tasks" %>
+
+<%= render "form", reading_task: @reading_task %>
+

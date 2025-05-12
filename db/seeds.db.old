@@ -1,0 +1,76 @@
+# db/seeds.rb
+
+# 1) Genres
+[
+  { name: "Thriller",        description: "Edge-of-your-seat suspense and excitement." },
+  { name: "Science Fiction", description: "Futuristic worlds, advanced tech, and space travel." },
+  { name: "Fantasy",         description: "Magic, mythical creatures, and epic quests." },
+  { name: "Mystery",         description: "Whodunits, investigations, and twists." },
+  { name: "Romance",         description: "Love stories with emotional journeys." },
+  { name: "Biography",       description: "Life stories of real people." },
+  { name: "History",         description: "Accounts of past events and eras." },
+  { name: "Self-Help",       description: "Advice and strategies for personal growth." },
+  { name: "Young Adult",     description: "Coming-of-age tales for teens and up." },
+  { name: "Non-Fiction",     description: "Fact-based books on real topics." }
+].each do |attrs|
+  Genre.find_or_create_by!(name: attrs[:name]) do |g|
+    g.description = attrs[:description]
+  end
+end
+
+# 2) Task Categories
+[
+  { name: "Must Read",       description: "Top priority—read as soon as possible." },
+  { name: "Currently Reading", description: "Books you're in the middle of." },
+  { name: "On Deck",         description: "Next up on your reading list." },
+  { name: "Finished",        description: "Books you've completed." },
+  { name: "Recommended",     description: "Books recommended to you." }
+].each do |attrs|
+  TaskCategory.find_or_create_by!(name: attrs[:name]) do |tc|
+    tc.description = attrs[:description] if tc.respond_to?(:description)
+  end
+end
+
+# 3) Sample Books
+[
+  {
+    title:          "Dune",
+    author:         "Frank Herbert",
+    genre_name:     "Science Fiction",
+    published_year: 1965,
+    description:    "A noble family's son becomes the mysterious man known as Muad'Dib."
+  },
+  {
+    title:          "The Hobbit",
+    author:         "J.R.R. Tolkien",
+    genre_name:     "Fantasy",
+    published_year: 1937,
+    description:    "Bilbo Baggins goes on an unexpected journey to the Lonely Mountain."
+  },
+  {
+    title:          "The Da Vinci Code",
+    author:         "Dan Brown",
+    genre_name:     "Mystery",
+    published_year: 2003,
+    description:    "Symbologist Robert Langdon uncovers a religious conspiracy."
+  },
+  {
+    title:          "Pride and Prejudice",
+    author:         "Jane Austen",
+    genre_name:     "Romance",
+    published_year: 1813,
+    description:    "Elizabeth Bennet navigates issues of manners, upbringing, and marriage."
+  }
+].each do |attrs|
+  genre = Genre.find_by(name: attrs.delete(:genre_name))
+  next unless genre
+
+  Book.find_or_create_by!(title: attrs[:title], author: attrs[:author]) do |b|
+    b.genre          = genre
+    b.published_year = attrs[:published_year]
+    b.description    = attrs[:description]
+  end
+end
+
+puts "✅ Seed complete!"
+

@@ -1,0 +1,28 @@
+<%# ------------------------------------------------------------------------- %>
+<%#  BookBox – COM214 Final Project (Spring 2025)                             %>
+<%#  Author contributions:                                                    %>
+<%#    Cam Bayusik      – Lending modal & loan banner                          %>
+<%#    Liana Bourdon   – Task lists, navbar tweaks                            %>
+<%#    Annabelle Calvin – Book cards, genre filter                             %>
+<%# ------------------------------------------------------------------------- %>
+
+<!-- app/views/task_categories/edit.html.erb -->
+
+<%= page_header "fas fa-tag", "Edit Category", @task_category.name %>
+
+<%= form_with(model: @task_category, local: true) do |f| %>
+  <%= render "form", f: f, task_category: @task_category %>
+<% end %>
+
+<div class="mt-4 d-flex justify-content-between">
+  <%= link_to "Back to Categories",
+              task_categories_path,
+              class: "btn btn-secondary" %>
+
+  <%= button_to "Delete Category",
+                task_category_path(@task_category),
+                method: :delete,
+                data: { confirm: "Are you sure you want to delete this category and all its tasks?" },
+                class: "btn btn-danger" %>
+</div>
+

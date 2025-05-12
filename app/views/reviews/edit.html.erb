@@ -1,0 +1,18 @@
+<%# ------------------------------------------------------------------------- %>
+<%#  BookBox – COM214 Final Project (Spring 2025)                             %>
+<%#  Author contributions:                                                    %>
+<%#    Cam Bayusik      – Lending modal & loan banner                          %>
+<%#    Liana Bourdon   – Task lists, navbar tweaks                            %>
+<%#    Annabelle Calvin – Book cards, genre filter                             %>
+<%# ------------------------------------------------------------------------- %>
+
+<%# app/views/reviews/edit.html.erb %>
+<%= page_header "fas fa-star", "Edit Your Review" %>
+
+<div class="mb-4">
+  <%= link_to "← Back to Book", book_path(@book),
+              class: "btn btn-sm btn-outline-secondary" %>
+</div>
+
+<%= render "form", review: @review, book: @book %>
+

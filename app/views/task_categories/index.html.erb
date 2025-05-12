@@ -1,0 +1,113 @@
+<%# ------------------------------------------------------------------------- %>
+<%#  BookBox – COM214 Final Project (Spring 2025)                             %>
+<%#  Author contributions:                                                    %>
+<%#    Cam Bayusik      – Lending modal & loan banner                          %>
+<%#    Liana Bourdon   – Task lists, navbar tweaks                            %>
+<%#    Annabelle Calvin – Book cards, genre filter                             %>
+<%# ------------------------------------------------------------------------- %>
+
+<!-- app/views/task_categories/index.html.erb -->
+
+<%= page_header "fas fa-tags", "Categories", "categories" %>
+
+<div class="mb-4 text-end">
+  <%= link_to new_task_category_path, class: "btn btn-primary" do %>
+    <i class="fas fa-plus me-1"></i> New Category
+  <% end %>
+</div>
+
+<% if @task_categories.empty? %>
+  <p class="text-muted">No categories created yet.</p>
+<% else %>
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <% @task_categories.each do |category| %>
+      <div class="col">
+        <div class="card shadow-sm border-0">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="mb-0 text-<%= category.color.presence || 'secondary' %> fw-bold">
+                <i class="fas fa-tag me-2"></i>
+                <%= category.name %>
+              </h5>
+
+              <% if category.user_id == current_user.id %>
+                <%= link_to edit_task_category_path(category),
+                            class: "ms-2",
+                            title: "Edit category" do %>
+                  <i class="fas fa-edit text-danger"></i>
+                <% end %>
+              <% end %>
+            </div>
+
+            <% if category.reading_tasks.any? %>
+              <ul class="list-group list-group-flush">
+                <% category.reading_tasks.each do |task| %>
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="d-flex align-items-center">
+                      <% if task.book.cover.attached? %>
+                        <%= image_tag task.book.cover.variant(resize_to_limit: [28, 40]),
+                                      class: "me-2 rounded shadow-sm border",
+                                      style: "width: 28px; height: 40px; object-fit: cover;" %>
+                      <% else %>
+                        <i class="fas fa-book-open me-2 text-secondary fs-5"></i>
+                      <% end %>
+                      <div>
+                        <strong><%= link_to task.book.title,
+                                             reading_task_path(task),
+                                             class: "text-decoration-none" %></strong>
+                        <small class="d-block mt-1">
+                          <% case task.priority %>
+                          <% when "high" %>
+                            <span class="badge bg-danger me-1">
+                              <i class="fas fa-arrow-up me-1"></i> High
+                            </span>
+                          <% when "medium" %>
+                            <span class="badge bg-warning text-dark me-1">
+                              <i class="fas fa-arrow-right me-1"></i> Medium
+                            </span>
+                          <% when "low" %>
+                            <span class="badge bg-success me-1">
+                              <i class="fas fa-arrow-down me-1"></i> Low
+                            </span>
+                          <% end %>
+
+                          <% if task.completed? %>
+                            <span class="badge bg-success">
+                              <i class="fas fa-check-circle me-1"></i> Done
+                            </span>
+                          <% end %>
+                        </small>
+                      </div>
+                    </div>
+
+                    <div class="text-end">
+                      <% if task.user == current_user %>
+                        <%= link_to "Edit",
+                                    edit_reading_task_path(task),
+                                    class: "btn btn-sm btn-outline-primary" %>
+                        <%= button_to "Delete",
+                                      reading_task_path(task),
+                                      method: :delete,
+                                      data: { confirm: "Delete this task?" },
+                                      class: "btn btn-sm btn-danger ms-2",
+                                      form: { class: "d-inline" } %>
+                      <% else %>
+                        <span class="badge bg-deep-purple mt-1">
+                          <i class="fas fa-user me-1 text-white-50"></i>
+                          Owned by <strong><%= task.user&.first_name || task.user&.email %></strong>
+                        </span>
+                      <% end %>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            <% else %>
+              <p class="text-muted mb-0 mt-2">No tasks in this category yet.</p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+

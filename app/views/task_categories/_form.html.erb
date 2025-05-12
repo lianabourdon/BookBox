@@ -1,0 +1,88 @@
+<%# ------------------------------------------------------------------------- %>
+<%#  BookBox – COM214 Final Project (Spring 2025)                             %>
+<%#  Author contributions:                                                    %>
+<%#    Cam Bayusik      – Lending modal & loan banner                          %>
+<%#    Liana Bourdon   – Task lists, navbar tweaks                            %>
+<%#    Annabelle Calvin – Book cards, genre filter                             %>
+<%# ------------------------------------------------------------------------- %>
+
+<!-- app/views/task_categories/_form.html.erb -->
+
+<%= form_with model: task_category, local: true do |f| %>
+  <% if task_category.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(task_category.errors.count, "error") %> prevented this category from saving:</h4>
+      <ul>
+        <% task_category.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- Category Name -->
+  <div class="mb-3">
+    <%= f.label :name, "Category name", class: "form-label" %>
+    <%= f.text_field :name, class: "form-control", autofocus: true, required: true %>
+  </div>
+
+  <!-- Category Description -->
+  <div class="mb-3">
+    <%= f.label :description, "Description (optional)", class: "form-label" %>
+    <%= f.text_area :description, class: "form-control", rows: 3 %>
+  </div>
+
+  <!-- Color Selector (Bootstrap contexts only) -->
+  <div class="mb-3">
+    <%= f.label :color, "Color", class: "form-label" %>
+    <%= f.select :color,
+          options_for_select([
+            ['Blue (primary)',   'primary'],
+            ['Gray (secondary)', 'secondary'],
+            ['Green (success)',  'success'],
+            ['Yellow (warning)', 'warning'],
+            ['Cyan (info)',      'info'],
+            ['Red (danger)',     'danger']
+          ], task_category.color),
+          { prompt: "Choose a color" },
+          class: "form-select w-auto",
+          id: "task_category_color_select",
+          required: true %>
+
+    <div class="form-text mt-1">
+      Preview:
+      <span id="task_category_color_badge"
+            class="badge bg-<%= task_category.color.presence || 'secondary' %>">
+        <%= task_category.color.present? ? task_category.color.capitalize : 'None' %>
+      </span>
+    </div>
+  </div>
+
+  <!-- Submit / Cancel Buttons -->
+  <div class="d-flex gap-2">
+    <%= f.submit task_category.new_record? ? "Create Category" : "Update Category",
+                 class: "btn btn-primary" %>
+    <%= link_to "Cancel", task_categories_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const select = document.getElementById("task_category_color_select")
+    const badge  = document.getElementById("task_category_color_badge")
+
+    function refreshBadge() {
+      const c = select.value || "secondary"
+      badge.className = "badge bg-" + c
+      badge.textContent = select.value
+        ? select.value.charAt(0).toUpperCase() + select.value.slice(1)
+        : "None"
+    }
+
+    if (select && badge) {
+      select.addEventListener("change", refreshBadge)
+      refreshBadge()
+    }
+  })
+</script>
+

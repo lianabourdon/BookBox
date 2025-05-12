@@ -1,0 +1,20 @@
+<%# ------------------------------------------------------------------------- %>
+<%#  BookBox – COM214 Final Project (Spring 2025)                             %>
+<%#  Author contributions:                                                    %>
+<%#    Cam Bayusik      – Lending modal & loan banner                          %>
+<%#    Liana Bourdon   – Task lists, navbar tweaks                            %>
+<%#    Annabelle Calvin – Book cards, genre filter                             %>
+<%# ------------------------------------------------------------------------- %>
+
+
+<% content_for :title, "New genre" %>
+
+<h1>New genre</h1>
+
+<%= render "form", genre: @genre %>
+
+<br>
+
+<div>
+  <%= link_to "Back to genres", genres_path %>
+</div>
