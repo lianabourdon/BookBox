@@ -1,9 +1,9 @@
 # ---------------------------------------------------------------------------
 # BookBox – COM214 Final Project (Spring 2025)
 # Author contributions
-#   Cam Bayusik      – Lending system, Select2 search UI, FAQ controller & view
+#   Cam Bayusik     – Lending system, Select2 search UI, FAQ controller & view
 #   Liana Bourdon   – ReadingTask workflow, Devise roles, deployment scripts
-#   Annabelle Calvin – Catalogue & review features, Cloudinary, SCSS/Bootstrap
+#   Annabelle Calvin– Catalogue & review features, Cloudinary, SCSS/Bootstrap
 # ---------------------------------------------------------------------------
 
 class ApplicationController < ActionController::Base
@@ -18,7 +18,14 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
+    # Permit :login for sign-in
     devise_parameter_sanitizer.permit(:sign_in, keys: [:login])
+
+    # Explicitly permit these for sign-up
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :username, :first_name, :last_name, :password, :password_confirmation])
+
+    # Explicitly permit these for account updates (optional but recommended)
+    devise_parameter_sanitizer.permit(:account_update, keys: [:email, :username, :first_name, :last_name, :password, :password_confirmation, :current_password])
   end
 
   private
