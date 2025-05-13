@@ -8,9 +8,9 @@
 ---
 
 ## 👥 Team Members
-- Liana Bourdon  
-- Annabelle Calvin  
-- Cam Bayusik  
+- [Liana Bourdon](mailto:lbourdon@conncoll.com)
+- [Annabelle Calvin](acalvin@conncoll.edu) 
+- [Cam Bayusik](cbayusik@conncoll.edu)
 
 ---
 
